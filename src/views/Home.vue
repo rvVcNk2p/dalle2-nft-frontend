@@ -2,16 +2,31 @@
 import ButtonRepo from '@/components/ButtonRepo.vue'
 import { ref } from 'vue'
 
+const {
+	VITE_BACK_END_URL_PRODUDTION,
+	VITE_BACK_END_URL_DEVELOPMENT,
+	VITE_ENVIRONMENT,
+} = import.meta.env
+
+const fetchImagesUrl =
+	VITE_ENVIRONMENT === 'DEVELOPMENT'
+		? VITE_BACK_END_URL_DEVELOPMENT
+		: VITE_BACK_END_URL_PRODUDTION
+
 const result = ref(null)
+const isLoading = ref(false)
 
 const fetchImages = async () => {
 	try {
-		const result = await fetch(
-			'https://currated-labs.onrender.com/fetch-images',
-		).then((response) => response.json())
-		console.log(result)
+		isLoading.value = true
+		const res = await fetch(fetchImagesUrl).then((response) =>
+			response.json(),
+		)
+		result.value = res
+		isLoading.value = false
 	} catch (error) {
 		console.log('== Error: ', error)
+		isLoading.value = false
 	}
 }
 </script>
@@ -37,8 +52,26 @@ const fetchImages = async () => {
 					>
 				</div>
 				<ButtonRepo />
+				<div class="ml-2 inline-flex rounded-md shadow">
+					<button
+						:disabled="isLoading"
+						class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-5 py-3 text-base font-medium leading-6 text-white transition duration-150 ease-in-out hover:bg-indigo-500 focus:outline-none"
+						@click="fetchImages"
+					>
+						{{ isLoading ? 'Loading...' : 'Fetch Images' }}
+					</button>
+				</div>
 			</div>
-			<button @click="fetchImages">Fetch Images</button>
+
+			<div
+				v-if="result"
+				class="mt-10 flex items-center justify-between gap-x-4"
+			>
+				<div v-for="image in result.generations">
+					<img :src="image.generation.image_path" class="h-40 w-40" />
+				</div>
+			</div>
+			<div v-else class="mt-10">NO IMAGES</div>
 		</div>
 	</div>
 </template>
