@@ -1,11 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-
-let counter = ref(0)
-
-setInterval(() => {
-  counter.value++
-}, 1000)
 </script>
 
 <template>
@@ -16,7 +10,7 @@ setInterval(() => {
           @click="counter = 0"
           class="text-3xl font-bold leading-tight text-gray-900"
         >
-          {{ $route.meta.title }} / {{ counter }}
+          {{ $route.meta.title }}
         </h1>
       </div>
     </header>
