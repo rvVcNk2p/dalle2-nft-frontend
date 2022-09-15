@@ -1,6 +1,9 @@
 <script setup>
 import ButtonRepo from '@/components/ButtonRepo.vue'
+import { inject } from 'vue'
 import { ref } from 'vue'
+
+const axios = inject('axios')
 
 const {
 	VITE_BACK_END_URL_PRODUDTION,
@@ -19,10 +22,10 @@ const isLoading = ref(false)
 const fetchImages = async () => {
 	try {
 		isLoading.value = true
-		const res = await fetch(fetchImagesUrl).then((response) =>
-			response.json(),
-		)
-		result.value = res
+
+		const res = await axios.get(fetchImagesUrl)
+		result.value = res.data
+
 		isLoading.value = false
 	} catch (error) {
 		console.log('== Error: ', error)
@@ -68,6 +71,7 @@ const fetchImages = async () => {
 				class="mt-10 flex items-center justify-between gap-x-4"
 			>
 				<div v-for="image in result.generations">
+					<p class="text-center">{{ image.created }}</p>
 					<img :src="image.generation.image_path" class="h-40 w-40" />
 				</div>
 			</div>
