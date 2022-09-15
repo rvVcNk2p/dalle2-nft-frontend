@@ -1,5 +1,16 @@
 <script setup>
 import ButtonRepo from '@/components/ButtonRepo.vue'
+
+const response = ref(null)
+
+const fetchImages = () => {
+  // Simple GET request using fetch
+    fetch('https://api.npms.io/v2/search?q=react')
+        .then(response => response.json())
+        .then(data => {
+          response.value = data.total
+        });
+}
 </script>
 
 <template>
