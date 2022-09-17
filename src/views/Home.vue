@@ -12,7 +12,7 @@ const {
 	VITE_INFURA_IPFS_URL,
 } = import.meta.env
 
-const fetchImagesUrl =
+const baseFetchUrl =
 	VITE_ENVIRONMENT === 'DEVELOPMENT'
 		? VITE_BACK_END_URL_DEVELOPMENT
 		: VITE_BACK_END_URL_PRODUDTION
@@ -24,7 +24,7 @@ const fetchImages = async () => {
 	try {
 		isLoading.value = true
 
-		const res = await axios.get(fetchImagesUrl)
+		const res = await axios.get(baseFetchUrl + '/fetch-images')
 		result.value = res.data
 
 		isLoading.value = false
@@ -39,7 +39,7 @@ const tryIpfs = async () => {
 	try {
 		isLoading.value = true
 
-		const res = await axios.get('http://localhost:3000/test-ipfs')
+		const res = await axios.get(baseFetchUrl + '/test-ipfs')
 		console.log(VITE_INFURA_IPFS_URL + res.data.cid)
 
 		isLoading.value = false
