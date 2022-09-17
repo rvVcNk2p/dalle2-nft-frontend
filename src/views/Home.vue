@@ -9,6 +9,7 @@ const {
 	VITE_BACK_END_URL_PRODUDTION,
 	VITE_BACK_END_URL_DEVELOPMENT,
 	VITE_ENVIRONMENT,
+	VITE_INFURA_IPFS_URL,
 } = import.meta.env
 
 const fetchImagesUrl =
@@ -25,6 +26,21 @@ const fetchImages = async () => {
 
 		const res = await axios.get(fetchImagesUrl)
 		result.value = res.data
+
+		isLoading.value = false
+	} catch (error) {
+		console.log('== Error: ', error)
+		isLoading.value = false
+	}
+}
+
+const tryIpfs = async () => {
+	console.log()
+	try {
+		isLoading.value = true
+
+		const res = await axios.get('http://localhost:3000/test-ipfs')
+		console.log(VITE_INFURA_IPFS_URL + res.data.cid)
 
 		isLoading.value = false
 	} catch (error) {
@@ -55,6 +71,7 @@ const fetchImages = async () => {
 					>
 				</div>
 				<ButtonRepo />
+				<button @click="tryIpfs">Test ipfs</button>
 				<div class="ml-2 inline-flex rounded-md shadow">
 					<button
 						:disabled="isLoading"
@@ -65,17 +82,13 @@ const fetchImages = async () => {
 					</button>
 				</div>
 			</div>
-
-			<div
-				v-if="result"
-				class="mt-10 flex items-center justify-between gap-x-4"
-			>
-				<div v-for="image in result.generations">
-					<p class="text-center">{{ image.created }}</p>
-					<img :src="image.generation.image_path" class="h-40 w-40" />
-				</div>
-			</div>
-			<div v-else class="mt-10">NO IMAGES</div>
 		</div>
+		<div v-if="result" class="flex items-center justify-between gap-x-4">
+			<div v-for="image in result.generations">
+				<p class="text-center">{{ image.created }}</p>
+				<img :src="image.generation.image_path" class="h-40 w-40" />
+			</div>
+		</div>
+		<div v-else class="mt-10 w-full pb-10 text-center">NO IMAGES</div>
 	</div>
 </template>
