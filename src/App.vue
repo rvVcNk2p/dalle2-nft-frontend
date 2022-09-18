@@ -1,5 +1,11 @@
 <script setup>
-import { onMounted, inject } from 'vue'
+import LoginSection from '@/components/login/LoginSection.vue'
+import { useConnect } from 'vagmi'
+import { inject } from 'vue'
+
+import { useActiveNetwork } from '@/composable'
+
+const { isChainAvailable, availableChainNames } = useActiveNetwork()
 
 const {
 	VITE_BACK_END_URL_PRODUDTION,
@@ -22,22 +28,35 @@ const axios = inject('axios')
 // 		console.log(`[${res.status}] - ${res.data.statusMessage}`)
 // 	}, 1000 * 60 * 15 - 1) // Trigger a status call to prevent the server to sleep
 // })
+
+const { activeConnector } = useConnect()
 </script>
 
 <template>
 	<div>
-		<header class="bg-white shadow" v-if="$route.meta.title">
-			<div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-				<h1
-					@click="counter = 0"
-					class="text-3xl font-bold leading-tight text-gray-900"
-				>
-					{{ $route.meta.title }}
+		<header class="bg-white shadow">
+			<div
+				class="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 sm:px-6 lg:px-8"
+			>
+				<h1 class="text-3xl font-bold leading-tight text-gray-900">
+					Currated Labs - Originals
 				</h1>
+				<LoginSection />
 			</div>
 		</header>
-		<main>
+		<main v-if="activeConnector && isChainAvailable">
 			<router-view />
 		</main>
+		<div v-else class="flex h-[80vh] w-full items-center justify-center">
+			<p class="text-center text-5xl font-normal text-indigo-600">
+				{{
+					!activeConnector
+						? 'Please connect your account first!'
+						: !isChainAvailable
+						? `Please switch to an available chain! [${availableChainNames}]`
+						: null
+				}}
+			</p>
+		</div>
 	</div>
 </template>

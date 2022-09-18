@@ -1,7 +1,11 @@
-<script setup>
-import ButtonRepo from '@/components/ButtonRepo.vue'
+<script lang="ts" setup>
 import { inject } from 'vue'
-import { ref } from 'vue'
+import { ref, toRaw } from 'vue'
+import { useSigner } from 'vagmi'
+import { getSmartContract } from '@/shared/handlers/contractHandlers'
+import { CurratedLabsOriginalsABI } from '@/abi/CurratedLabsOriginals'
+import PrimaryButton from '@/components/button/PrimaryButton.vue'
+import { CURRATED_LABS_CONTRACT_ADDRESS } from '@/shared/data/contracts'
 
 const axios = inject('axios')
 
@@ -35,7 +39,6 @@ const fetchImages = async () => {
 }
 
 const tryIpfs = async () => {
-	console.log()
 	try {
 		isLoading.value = true
 
@@ -48,6 +51,27 @@ const tryIpfs = async () => {
 		isLoading.value = false
 	}
 }
+
+const { data: signer } = useSigner()
+
+const interactWithNftContract = async () => {
+	if (!signer.value) {
+		console.log('No signer available.')
+	}
+
+	const signerProvider = toRaw(signer.value!)
+
+	const NftContract = getSmartContract(
+		CURRATED_LABS_CONTRACT_ADDRESS,
+		CurratedLabsOriginalsABI,
+		signerProvider,
+	)
+
+	const res = await NftContract.tokenURI(1)
+	// const res = await NftContract.withdrawAll()
+
+	console.log('tokenURI: ', res)
+}
 </script>
 
 <template>
@@ -55,23 +79,12 @@ const tryIpfs = async () => {
 		<div
 			class="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 lg:flex lg:items-center lg:justify-between lg:py-16 lg:px-8"
 		>
-			<h2
-				class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 sm:text-4xl sm:leading-10"
-			>
-				Ready to dive in?
-				<br />
-				<span class="text-indigo-600">Vite + Vue 3 + Tailwind CSS</span>
-			</h2>
 			<div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
-				<div class="inline-flex rounded-md shadow">
-					<router-link
-						to="/about"
-						class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-5 py-3 text-base font-medium leading-6 text-white transition duration-150 ease-in-out hover:bg-indigo-500 focus:outline-none"
-						>Next Page</router-link
-					>
-				</div>
-				<ButtonRepo />
-				<button @click="tryIpfs">Test ipfs</button>
+				<PrimaryButton @click="tryIpfs" label="Test ipfs" />
+				<PrimaryButton
+					@click="interactWithNftContract()"
+					label="Interact with NFT smart contract"
+				/>
 				<div class="ml-2 inline-flex rounded-md shadow">
 					<button
 						:disabled="isLoading"

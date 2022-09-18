@@ -1,6 +1,9 @@
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
+import { VagmiPlugin } from 'vagmi'
+import { vagmiClient } from './plugins/vagmi/initializeVagmi'
+
 import { createApp } from 'vue'
 import './tailwind.css'
 import App from './App.vue'
@@ -14,6 +17,7 @@ const router = createRouter({
 	routes,
 })
 
+app.use(VagmiPlugin(vagmiClient))
 app.use(VueAxios, axios)
 app.provide('axios', app.config.globalProperties.axios)
 app.use(router)
