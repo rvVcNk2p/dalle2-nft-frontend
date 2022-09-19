@@ -2,10 +2,13 @@
 import { inject } from 'vue'
 import { ref, toRaw } from 'vue'
 import { useSigner } from 'vagmi'
+
 import { getSmartContract } from '@/shared/handlers/contractHandlers'
-import { CurratedLabsOriginalsABI } from '@/abi/CurratedLabsOriginals'
-import PrimaryButton from '@/components/button/PrimaryButton.vue'
 import { CURRATED_LABS_CONTRACT_ADDRESS } from '@/shared/data/contracts'
+import { CurratedLabsOriginalsABI } from '@/abi/CurratedLabsOriginals'
+
+import PrimaryButton from '@/components/button/PrimaryButton.vue'
+import OwnedNftsSection from '@/components/nft/OwnedNftsSection.vue'
 
 const axios = inject('axios')
 
@@ -103,5 +106,10 @@ const interactWithNftContract = async () => {
 			</div>
 		</div>
 		<div v-else class="mt-10 w-full pb-10 text-center">NO IMAGES</div>
+	</div>
+	<div
+		class="mx-auto max-w-screen-xl p-6 lg:flex lg:items-center lg:justify-between"
+	>
+		<OwnedNftsSection />
 	</div>
 </template>
