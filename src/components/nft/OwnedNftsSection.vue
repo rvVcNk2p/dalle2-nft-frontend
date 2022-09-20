@@ -1,14 +1,16 @@
 <script lang="ts" setup>
-import { useAlchemyNft } from '@/composable'
 import { onMounted } from 'vue'
+import { useNftStore } from '@store'
+import { v4 as uuidv4 } from 'uuid'
 
 import NftCard from '@/components/nft/NftCard.vue'
+import { storeToRefs } from 'pinia'
 
-const { ownedNfts, isLoading, fetchOwnedNfts } = useAlchemyNft()
+const nftStore = useNftStore()
+const { ownedNfts, isLoading } = storeToRefs(nftStore)
+const { fetchOwnedNfts } = nftStore
 
-onMounted(async () => {
-	await fetchOwnedNfts()
-})
+onMounted(async () => await fetchOwnedNfts())
 </script>
 
 <template>
@@ -21,7 +23,7 @@ onMounted(async () => {
 		<div class="owned-nfts-section">
 			<NftCard
 				v-for="(nft, idx) in ownedNfts"
-				:key="nft.name + idx"
+				:key="uuidv4()"
 				:ownedNft="nft"
 			/>
 			<div v-if="!ownedNfts.length && !isLoading">

@@ -4,6 +4,7 @@ import { WalletType } from '@/shared/types/chains.types'
 import { useVagmiUtils } from '@/plugins/vagmi/useWagmiUtils'
 import { useConnect, useDisconnect, useBalance, useAccount } from 'vagmi'
 import { computed } from 'vue'
+import { v4 as uuidv4 } from 'uuid'
 
 import { useActiveNetwork } from '@/composable'
 
@@ -13,10 +14,10 @@ const { isChainAvailable } = useActiveNetwork()
 const { activeConnector, isConnecting, pendingConnector } = useConnect()
 const { disconnect } = useDisconnect()
 const { address, isDisconnected } = useAccount()
-const { data } = useBalance({ addressOrName: address })
+const { data } = useBalance({ addressOrName: address, watch: true })
 
 const formattedBalance = computed(() =>
-	data.value?.formatted ? data.value.formatted.slice(0, 4) : '-',
+	data.value?.formatted ? data.value.formatted.slice(0, 6) : '-',
 )
 </script>
 
@@ -32,7 +33,7 @@ const formattedBalance = computed(() =>
 	<div v-else-if="!activeConnector" class="flex items-center justify-between">
 		<PrimaryButton
 			v-for="wallet in WalletType"
-			:key="wallet"
+			:key="uuidv4()"
 			@click="connectType(wallet)"
 			:label="wallet"
 		/>

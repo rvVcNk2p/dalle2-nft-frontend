@@ -6,10 +6,12 @@ import { getSmartContract } from '@/shared/handlers/contractHandlers'
 import { CurratedLabsOriginalsABI } from '@/abi/CurratedLabsOriginals'
 import { Signer } from 'ethers'
 import { useToast } from '@/composable'
+import { useNftStore } from '@store'
 
 const { createToast, SUCCESS, INFO } = useToast()
 
 export const useVagmiEventListeners = (_signer?: Ref<Signer>) => {
+	const { fetchOwnedNfts } = useNftStore()
 	const { data } = useSigner()
 	const { address } = useAccount()
 	const signer = ref(_signer ?? data)
@@ -40,6 +42,8 @@ export const useVagmiEventListeners = (_signer?: Ref<Signer>) => {
 	const initMintEventListener = async (NftContract) => {
 		NftContract.on('MintEvent', (from, tokenId) => {
 			if (address.value === from) {
+				fetchOwnedNfts()
+
 				createToast(
 					SUCCESS,
 					`Congratulation! You have been minted a new NFT with tokenId: ${tokenId.toString()}`,
@@ -51,6 +55,8 @@ export const useVagmiEventListeners = (_signer?: Ref<Signer>) => {
 	const initSetMindedNftListener = async (NftContract) => {
 		NftContract.on('SetMindedNft', (from, tokenId, cid) => {
 			if (address.value === from) {
+				fetchOwnedNfts()
+
 				createToast(
 					SUCCESS,
 					`Sweet! Your NFT with tokenId: ${tokenId.toString()} reached its final form. `,
@@ -61,7 +67,7 @@ export const useVagmiEventListeners = (_signer?: Ref<Signer>) => {
 							INFO,
 							`From now, you own a true masterpiece!`,
 						),
-					2500,
+					3500,
 				)
 			}
 		})

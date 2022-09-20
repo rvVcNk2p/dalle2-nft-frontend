@@ -2,7 +2,6 @@
 import LoginSection from '@/components/login/LoginSection.vue'
 import { useConnect } from 'vagmi'
 import { inject, onMounted } from 'vue'
-
 import { useActiveNetwork, useVagmiEventListeners } from '@/composable'
 
 const { isChainAvailable, availableChainNames } = useActiveNetwork()

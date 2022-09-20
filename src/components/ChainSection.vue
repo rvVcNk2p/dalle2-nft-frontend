@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useNetwork, useSwitchNetwork } from 'vagmi'
+
 const { chain } = useNetwork()
 const { chains, error, isLoading, pendingChainId, switchNetwork } =
 	useSwitchNetwork()
