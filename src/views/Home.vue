@@ -1,12 +1,6 @@
 <script lang="ts" setup>
 import { inject } from 'vue'
-import { ref, toRaw } from 'vue'
-import { useSigner } from 'vagmi'
-
-import { getSmartContract } from '@/shared/handlers/contractHandlers'
-import { CURRATED_LABS_CONTRACT_ADDRESS } from '@/shared/data/contracts'
-import { CurratedLabsOriginalsABI } from '@/abi/CurratedLabsOriginals'
-
+import { ref } from 'vue'
 import PrimaryButton from '@/components/button/PrimaryButton.vue'
 import OwnedNftsSection from '@/components/nft/OwnedNftsSection.vue'
 
@@ -54,27 +48,6 @@ const tryIpfs = async () => {
 		isLoading.value = false
 	}
 }
-
-const { data: signer } = useSigner()
-
-const interactWithNftContract = async () => {
-	if (!signer.value) {
-		console.log('No signer available.')
-	}
-
-	const signerProvider = toRaw(signer.value!)
-
-	const NftContract = getSmartContract(
-		CURRATED_LABS_CONTRACT_ADDRESS,
-		CurratedLabsOriginalsABI,
-		signerProvider,
-	)
-
-	const res = await NftContract.tokenURI(1)
-	// const res = await NftContract.withdrawAll()
-
-	console.log('tokenURI: ', res)
-}
 </script>
 
 <template>
@@ -84,10 +57,6 @@ const interactWithNftContract = async () => {
 		>
 			<div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
 				<PrimaryButton @click="tryIpfs" label="Test ipfs" />
-				<PrimaryButton
-					@click="interactWithNftContract()"
-					label="Interact with NFT smart contract"
-				/>
 				<div class="ml-2 inline-flex rounded-md shadow">
 					<button
 						:disabled="isLoading"

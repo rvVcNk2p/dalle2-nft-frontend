@@ -3,17 +3,20 @@ import { computed } from 'vue'
 import type { OwnedNft } from 'alchemy-sdk'
 
 type ownedNftType = {
-	ownedNft: OwnedNft
+	ownedNft: {
+		image: string
+		description: string
+		name: string
+	}
 }
 const props = defineProps<ownedNftType>()
 
-const { title, media } = props.ownedNft
-const mediaUrl = computed(() => media[0].raw)
+const { name, image, description } = props.ownedNft
 </script>
 <template>
 	<div class="nft-card">
-		<img :src="mediaUrl" :alt="title" class="nft-card__img" />
-		<p class="nft-card__title">{{ title }}</p>
+		<img :src="image" :alt="name" class="nft-card__img" />
+		<p class="nft-card__name">{{ name }}</p>
 	</div>
 </template>
 
@@ -29,7 +32,7 @@ const mediaUrl = computed(() => media[0].raw)
 		@apply h-52 w-52 rounded-t-lg;
 	}
 
-	.nft-card__title {
+	.nft-card__name {
 		@apply w-52 rounded-b-lg bg-white py-2 px-2 text-sm font-medium;
 	}
 }

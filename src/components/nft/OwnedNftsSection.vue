@@ -15,7 +15,7 @@ onMounted(async () => {
 	<div class="owned-nfts-section">
 		<NftCard
 			v-for="(nft, idx) in ownedNfts"
-			:key="nft.title + idx"
+			:key="nft.name + idx"
 			:ownedNft="nft"
 		/>
 	</div>
@@ -23,6 +23,6 @@ onMounted(async () => {
 
 <style lang="scss">
 .owned-nfts-section {
-	@apply flex items-center justify-start;
+	@apply flex items-center justify-start gap-4;
 }
 </style>
