@@ -8,16 +8,23 @@ import { WalletConnectConnector } from 'vagmi/connectors/walletConnect'
 import { alchemyProvider } from 'vagmi/providers/alchemy'
 import { publicProvider } from 'vagmi/providers/public'
 
-const alchemyId = import.meta.env.VITE_ALCHEMY_ID
+const { VITE_POLYGON_ALCHEMY_API, VITE_MUMBAI_ALCHEMY_API, VITE_ENVIRONMENT } =
+	import.meta.env
 
-const { chains, provider } = configureChains(
-	[chain.polygon, chain.polygonMumbai],
-	[
-		alchemyProvider({ alchemyId, priority: 0, weight: 1 }),
-		publicProvider({ priority: 1, weight: 2 }),
-		// infuraProvider({ infuraId, priority: 1, weight: 2 })
-	],
-)
+const alchemyId =
+	VITE_ENVIRONMENT === 'DEVELOPMENT'
+		? VITE_MUMBAI_ALCHEMY_API
+		: VITE_POLYGON_ALCHEMY_API
+
+const availableChains = [
+	VITE_ENVIRONMENT === 'DEVELOPMENT' ? chain.polygonMumbai : chain.polygon,
+]
+
+const { chains, provider } = configureChains(availableChains, [
+	alchemyProvider({ alchemyId, priority: 0, weight: 1 }),
+	publicProvider({ priority: 1, weight: 2 }),
+	// infuraProvider({ infuraId, priority: 1, weight: 2 })
+])
 
 const connectors = [
 	new MetaMaskConnector({ chains }),

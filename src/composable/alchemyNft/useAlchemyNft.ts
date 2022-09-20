@@ -7,16 +7,28 @@ import { CURRATED_LABS_CONTRACT_ADDRESS } from '@/shared/data/contracts'
 import { getSmartContract } from '@/shared/handlers/contractHandlers'
 import { CurratedLabsOriginalsABI } from '@/abi/CurratedLabsOriginals'
 
-const apiKey = import.meta.env.VITE_ALCHEMY_ID
+const { VITE_POLYGON_ALCHEMY_API, VITE_MUMBAI_ALCHEMY_API, VITE_ENVIRONMENT } =
+	import.meta.env
+
+const apiKey =
+	VITE_ENVIRONMENT === 'DEVELOPMENT'
+		? VITE_MUMBAI_ALCHEMY_API
+		: VITE_POLYGON_ALCHEMY_API
+
+const network =
+	VITE_ENVIRONMENT === 'DEVELOPMENT'
+		? Network.MATIC_MUMBAI
+		: Network.MATIC_MAINNET
+
 const settings = {
 	apiKey,
-	network: Network.MATIC_MAINNET, // TODO: Change to Polygon in production
+	network,
 }
+
 const alchemy = new Alchemy(settings)
 
 export const getParsedBase64 = (base64Str: string) => {
 	const strInput = base64Str.split('data:application/json;base64,')[1]
-	// return { name: '', image: '', description: '' }
 	return JSON.parse(Buffer.from(strInput, 'base64').toString('utf8'))
 }
 
@@ -31,7 +43,7 @@ export const useAlchemyNft = () => {
 	watch(
 		() => address.value,
 		() => {
-			fetchOwnedNfts()
+			if (address.value) fetchOwnedNfts()
 		},
 	)
 
@@ -45,6 +57,7 @@ export const useAlchemyNft = () => {
 					contractAddresses: [CURRATED_LABS_CONTRACT_ADDRESS],
 					omitMetadata: false,
 				})
+			console.log(CURRATED_LABS_CONTRACT_ADDRESS)
 			// Get tokenIds owned by address
 			const ownedTokenIds = getNftsForOwnerResonse.ownedNfts.map(
 				(nft) => nft.tokenId,
