@@ -10,12 +10,14 @@ export default defineConfig({
 	resolve: {
 		alias: {
 			'@': resolve(__dirname, 'src'),
-			process: 'process/browser',
 		},
 	},
 	build: {
+		commonjsOptions: {
+			transformMixedEsModules: true,
+		},
 		rollupOptions: {
-			external: ['Buffer', 'buffer'],
+			plugins: [],
 		},
 	},
 	optimizeDeps: {
