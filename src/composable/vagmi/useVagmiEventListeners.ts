@@ -29,8 +29,6 @@ export const useVagmiEventListeners = (_signer?: Ref<Signer>) => {
 	const initEventListeners = () => {
 		const signerProvider = toRaw(signer.value!)
 
-		console.log('initEventListeners...')
-
 		const NftContract = getSmartContract(
 			CURRATED_LABS_CONTRACT_ADDRESS,
 			CurratedLabsOriginalsABI,
@@ -56,7 +54,6 @@ export const useVagmiEventListeners = (_signer?: Ref<Signer>) => {
 
 	const initSetMindedNftListener = async (NftContract) => {
 		NftContract.on('SetMindedNft', (from, tokenId, cid) => {
-			console.log(from, tokenId.toString(), address.value)
 			if (address.value === from) {
 				fetchOwnedNfts()
 
