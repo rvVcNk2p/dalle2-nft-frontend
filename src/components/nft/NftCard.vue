@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
-import type { OwnedNft } from 'alchemy-sdk'
-
 type ownedNftType = {
 	ownedNft: {
 		image: string

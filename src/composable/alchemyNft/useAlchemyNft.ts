@@ -5,7 +5,6 @@ import type { OwnedNftsResponse, OwnedNft } from 'alchemy-sdk'
 import { useAccount, useSigner } from 'vagmi'
 import { CURRATED_LABS_CONTRACT_ADDRESS } from '@/shared/data/contracts'
 import { getSmartContract } from '@/shared/handlers/contractHandlers'
-import { getParsedBase64 } from '@/shared/utils/getUriFromBase64'
 import { CurratedLabsOriginalsABI } from '@/abi/CurratedLabsOriginals'
 
 const apiKey = import.meta.env.VITE_ALCHEMY_ID
@@ -14,6 +13,11 @@ const settings = {
 	network: Network.MATIC_MAINNET, // TODO: Change to Polygon in production
 }
 const alchemy = new Alchemy(settings)
+
+export const getParsedBase64 = (base64Str: string) => {
+	const strInput = base64Str.split('data:application/json;base64,')[1]
+	return JSON.parse(Buffer.from(strInput, 'base64').toString('utf8'))
+}
 
 export const useAlchemyNft = () => {
 	const { address } = useAccount()
