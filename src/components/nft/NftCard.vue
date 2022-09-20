@@ -4,11 +4,12 @@ type ownedNftType = {
 		image: string
 		description: string
 		name: string
+		tokenId: string
 	}
 }
 const props = defineProps<ownedNftType>()
 
-const { name, image, description } = props.ownedNft
+const { name, image, description, tokenId } = props.ownedNft
 </script>
 <template>
 	<div class="nft-card">
@@ -26,11 +27,11 @@ const { name, image, description } = props.ownedNft
 	}
 
 	.nft-card__img {
-		@apply h-52 w-52 rounded-t-lg;
+		@apply h-64 w-64 rounded-t-lg;
 	}
 
 	.nft-card__name {
-		@apply w-52 rounded-b-lg bg-white py-2 px-2 text-sm font-medium;
+		@apply w-64 rounded-b-lg bg-white py-2 px-2 text-center text-sm font-medium;
 	}
 }
 </style>

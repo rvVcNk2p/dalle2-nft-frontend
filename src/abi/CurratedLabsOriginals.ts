@@ -1,5 +1,9 @@
 const CurratedLabsOriginalsABI = [
-	{ inputs: [], stateMutability: 'nonpayable', type: 'constructor' },
+	{
+		inputs: [],
+		stateMutability: 'nonpayable',
+		type: 'constructor',
+	},
 	{
 		anonymous: false,
 		inputs: [
@@ -56,6 +60,50 @@ const CurratedLabsOriginalsABI = [
 			{
 				indexed: true,
 				internalType: 'address',
+				name: '_from',
+				type: 'address',
+			},
+			{
+				indexed: true,
+				internalType: 'uint256',
+				name: '_tokenId',
+				type: 'uint256',
+			},
+		],
+		name: 'MintEvent',
+		type: 'event',
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{
+				indexed: true,
+				internalType: 'address',
+				name: '_from',
+				type: 'address',
+			},
+			{
+				indexed: true,
+				internalType: 'uint256',
+				name: '_tokenId',
+				type: 'uint256',
+			},
+			{
+				indexed: false,
+				internalType: 'string',
+				name: '_cid',
+				type: 'string',
+			},
+		],
+		name: 'SetMindedNft',
+		type: 'event',
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{
+				indexed: true,
+				internalType: 'address',
 				name: 'from',
 				type: 'address',
 			},
@@ -77,8 +125,16 @@ const CurratedLabsOriginalsABI = [
 	},
 	{
 		inputs: [
-			{ internalType: 'address', name: 'to', type: 'address' },
-			{ internalType: 'uint256', name: 'tokenId', type: 'uint256' },
+			{
+				internalType: 'address',
+				name: 'to',
+				type: 'address',
+			},
+			{
+				internalType: 'uint256',
+				name: 'tokenId',
+				type: 'uint256',
+			},
 		],
 		name: 'approve',
 		outputs: [],
@@ -86,57 +142,145 @@ const CurratedLabsOriginalsABI = [
 		type: 'function',
 	},
 	{
-		inputs: [{ internalType: 'address', name: 'owner', type: 'address' }],
+		inputs: [
+			{
+				internalType: 'address',
+				name: 'owner',
+				type: 'address',
+			},
+		],
 		name: 'balanceOf',
-		outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [{ internalType: 'string', name: 'cid', type: 'string' }],
-		name: 'generateImgUrl',
-		outputs: [{ internalType: 'string', name: '', type: 'string' }],
-		stateMutability: 'pure',
-		type: 'function',
-	},
-	{
-		inputs: [{ internalType: 'uint256', name: 'tokenId', type: 'uint256' }],
-		name: 'getApproved',
-		outputs: [{ internalType: 'address', name: '', type: 'address' }],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [{ internalType: 'uint256', name: 'tokenId', type: 'uint256' }],
-		name: 'getTokenImageStatus',
-		outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+		outputs: [
+			{
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
+		],
 		stateMutability: 'view',
 		type: 'function',
 	},
 	{
 		inputs: [
-			{ internalType: 'uint256', name: 'tokenId', type: 'uint256' },
-			{ internalType: 'string', name: 'cid', type: 'string' },
+			{
+				internalType: 'string',
+				name: 'cid',
+				type: 'string',
+			},
+		],
+		name: 'generateImgUrl',
+		outputs: [
+			{
+				internalType: 'string',
+				name: '',
+				type: 'string',
+			},
+		],
+		stateMutability: 'pure',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'uint256',
+				name: 'tokenId',
+				type: 'uint256',
+			},
+		],
+		name: 'getApproved',
+		outputs: [
+			{
+				internalType: 'address',
+				name: '',
+				type: 'address',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'uint256',
+				name: 'tokenId',
+				type: 'uint256',
+			},
+		],
+		name: 'getTokenImageStatus',
+		outputs: [
+			{
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'uint256',
+				name: 'tokenId',
+				type: 'uint256',
+			},
+			{
+				internalType: 'string',
+				name: 'cid',
+				type: 'string',
+			},
 		],
 		name: 'getTokenURI',
-		outputs: [{ internalType: 'string', name: '', type: 'string' }],
+		outputs: [
+			{
+				internalType: 'string',
+				name: '',
+				type: 'string',
+			},
+		],
 		stateMutability: 'pure',
 		type: 'function',
 	},
 	{
 		inputs: [
-			{ internalType: 'address', name: 'owner', type: 'address' },
-			{ internalType: 'address', name: 'operator', type: 'address' },
+			{
+				internalType: 'address',
+				name: 'owner',
+				type: 'address',
+			},
+			{
+				internalType: 'address',
+				name: 'operator',
+				type: 'address',
+			},
 		],
 		name: 'isApprovedForAll',
-		outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+		outputs: [
+			{
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
+		],
 		stateMutability: 'view',
 		type: 'function',
 	},
 	{
-		inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+		inputs: [
+			{
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
+		],
 		name: 'isMindedNftImageHasBeenSetted',
-		outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+		outputs: [
+			{
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
+		],
 		stateMutability: 'view',
 		type: 'function',
 	},
@@ -150,22 +294,52 @@ const CurratedLabsOriginalsABI = [
 	{
 		inputs: [],
 		name: 'name',
-		outputs: [{ internalType: 'string', name: '', type: 'string' }],
+		outputs: [
+			{
+				internalType: 'string',
+				name: '',
+				type: 'string',
+			},
+		],
 		stateMutability: 'view',
 		type: 'function',
 	},
 	{
-		inputs: [{ internalType: 'uint256', name: 'tokenId', type: 'uint256' }],
+		inputs: [
+			{
+				internalType: 'uint256',
+				name: 'tokenId',
+				type: 'uint256',
+			},
+		],
 		name: 'ownerOf',
-		outputs: [{ internalType: 'address', name: '', type: 'address' }],
+		outputs: [
+			{
+				internalType: 'address',
+				name: '',
+				type: 'address',
+			},
+		],
 		stateMutability: 'view',
 		type: 'function',
 	},
 	{
 		inputs: [
-			{ internalType: 'address', name: 'from', type: 'address' },
-			{ internalType: 'address', name: 'to', type: 'address' },
-			{ internalType: 'uint256', name: 'tokenId', type: 'uint256' },
+			{
+				internalType: 'address',
+				name: 'from',
+				type: 'address',
+			},
+			{
+				internalType: 'address',
+				name: 'to',
+				type: 'address',
+			},
+			{
+				internalType: 'uint256',
+				name: 'tokenId',
+				type: 'uint256',
+			},
 		],
 		name: 'safeTransferFrom',
 		outputs: [],
@@ -174,10 +348,26 @@ const CurratedLabsOriginalsABI = [
 	},
 	{
 		inputs: [
-			{ internalType: 'address', name: 'from', type: 'address' },
-			{ internalType: 'address', name: 'to', type: 'address' },
-			{ internalType: 'uint256', name: 'tokenId', type: 'uint256' },
-			{ internalType: 'bytes', name: 'data', type: 'bytes' },
+			{
+				internalType: 'address',
+				name: 'from',
+				type: 'address',
+			},
+			{
+				internalType: 'address',
+				name: 'to',
+				type: 'address',
+			},
+			{
+				internalType: 'uint256',
+				name: 'tokenId',
+				type: 'uint256',
+			},
+			{
+				internalType: 'bytes',
+				name: 'data',
+				type: 'bytes',
+			},
 		],
 		name: 'safeTransferFrom',
 		outputs: [],
@@ -186,8 +376,16 @@ const CurratedLabsOriginalsABI = [
 	},
 	{
 		inputs: [
-			{ internalType: 'address', name: 'operator', type: 'address' },
-			{ internalType: 'bool', name: 'approved', type: 'bool' },
+			{
+				internalType: 'address',
+				name: 'operator',
+				type: 'address',
+			},
+			{
+				internalType: 'bool',
+				name: 'approved',
+				type: 'bool',
+			},
 		],
 		name: 'setApprovalForAll',
 		outputs: [],
@@ -196,8 +394,16 @@ const CurratedLabsOriginalsABI = [
 	},
 	{
 		inputs: [
-			{ internalType: 'uint256', name: 'tokenId', type: 'uint256' },
-			{ internalType: 'string', name: 'cid', type: 'string' },
+			{
+				internalType: 'uint256',
+				name: 'tokenId',
+				type: 'uint256',
+			},
+			{
+				internalType: 'string',
+				name: 'cid',
+				type: 'string',
+			},
 		],
 		name: 'setMintedNftImage',
 		outputs: [],
@@ -206,32 +412,72 @@ const CurratedLabsOriginalsABI = [
 	},
 	{
 		inputs: [
-			{ internalType: 'bytes4', name: 'interfaceId', type: 'bytes4' },
+			{
+				internalType: 'bytes4',
+				name: 'interfaceId',
+				type: 'bytes4',
+			},
 		],
 		name: 'supportsInterface',
-		outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+		outputs: [
+			{
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
+		],
 		stateMutability: 'view',
 		type: 'function',
 	},
 	{
 		inputs: [],
 		name: 'symbol',
-		outputs: [{ internalType: 'string', name: '', type: 'string' }],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
-		inputs: [{ internalType: 'uint256', name: 'tokenId', type: 'uint256' }],
-		name: 'tokenURI',
-		outputs: [{ internalType: 'string', name: '', type: 'string' }],
+		outputs: [
+			{
+				internalType: 'string',
+				name: '',
+				type: 'string',
+			},
+		],
 		stateMutability: 'view',
 		type: 'function',
 	},
 	{
 		inputs: [
-			{ internalType: 'address', name: 'from', type: 'address' },
-			{ internalType: 'address', name: 'to', type: 'address' },
-			{ internalType: 'uint256', name: 'tokenId', type: 'uint256' },
+			{
+				internalType: 'uint256',
+				name: 'tokenId',
+				type: 'uint256',
+			},
+		],
+		name: 'tokenURI',
+		outputs: [
+			{
+				internalType: 'string',
+				name: '',
+				type: 'string',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'address',
+				name: 'from',
+				type: 'address',
+			},
+			{
+				internalType: 'address',
+				name: 'to',
+				type: 'address',
+			},
+			{
+				internalType: 'uint256',
+				name: 'tokenId',
+				type: 'uint256',
+			},
 		],
 		name: 'transferFrom',
 		outputs: [],

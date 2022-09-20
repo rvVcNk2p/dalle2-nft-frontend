@@ -57,15 +57,19 @@ export const useAlchemyNft = () => {
 					contractAddresses: [CURRATED_LABS_CONTRACT_ADDRESS],
 					omitMetadata: false,
 				})
-			console.log(CURRATED_LABS_CONTRACT_ADDRESS)
+
 			// Get tokenIds owned by address
 			const ownedTokenIds = getNftsForOwnerResonse.ownedNfts.map(
 				(nft) => nft.tokenId,
 			)
+
 			// Get and decode the tokenURI by TokenId
 			const populatedNfts = await Promise.all(
 				ownedTokenIds.map(async (tokenId) => {
-					return await fetchTokenURIByTokenId(tokenId)
+					return {
+						...(await fetchTokenURIByTokenId(tokenId)),
+						tokenId,
+					}
 				}),
 			)
 			ownedNfts.value = populatedNfts

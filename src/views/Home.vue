@@ -3,6 +3,7 @@ import { inject } from 'vue'
 import { ref } from 'vue'
 import PrimaryButton from '@/components/button/PrimaryButton.vue'
 import OwnedNftsSection from '@/components/nft/OwnedNftsSection.vue'
+import MintSection from '@/components/nft/MintSection.vue'
 
 const axios = inject('axios')
 
@@ -51,10 +52,11 @@ const tryIpfs = async () => {
 </script>
 
 <template>
-	<div class="bg-gray-50">
+	<div class="mb-10">
 		<div
 			class="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 lg:flex lg:items-center lg:justify-between lg:py-16 lg:px-8"
 		>
+			<MintSection />
 			<div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
 				<PrimaryButton @click="tryIpfs" label="Test ipfs" />
 				<div class="ml-2 inline-flex rounded-md shadow">
@@ -75,10 +77,7 @@ const tryIpfs = async () => {
 			</div>
 		</div>
 		<div v-else class="mt-10 w-full pb-10 text-center">NO IMAGES</div>
-	</div>
-	<div
-		class="mx-auto max-w-screen-xl p-6 lg:flex lg:items-center lg:justify-between"
-	>
+
 		<OwnedNftsSection />
 	</div>
 </template>

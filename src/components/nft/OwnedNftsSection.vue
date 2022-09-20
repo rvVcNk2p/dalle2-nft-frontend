@@ -12,23 +12,30 @@ onMounted(async () => {
 </script>
 
 <template>
-	<div class="owned-nfts-section">
-		<NftCard
-			v-for="(nft, idx) in ownedNfts"
-			:key="nft.name + idx"
-			:ownedNft="nft"
-		/>
-		<div v-if="!ownedNfts.length && !isLoading">
-			No NFts has been minted!
-		</div>
-		<div v-else-if="!ownedNfts.length && isLoading">
-			Fething you NFTs...
+	<div class="flex w-full flex-col">
+		<h2
+			class="mb-10 text-center font-mono text-3xl font-semibold text-indigo-600 underline underline-offset-4"
+		>
+			Your epic NFTs
+		</h2>
+		<div class="owned-nfts-section">
+			<NftCard
+				v-for="(nft, idx) in ownedNfts"
+				:key="nft.name + idx"
+				:ownedNft="nft"
+			/>
+			<div v-if="!ownedNfts.length && !isLoading">
+				No NFts has been minted!
+			</div>
+			<div v-else-if="!ownedNfts.length && isLoading">
+				Fething your NFTs...
+			</div>
 		</div>
 	</div>
 </template>
 
 <style lang="scss">
 .owned-nfts-section {
-	@apply flex items-center justify-start gap-4;
+	@apply flex flex-wrap items-center justify-center gap-4;
 }
 </style>

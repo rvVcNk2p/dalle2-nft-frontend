@@ -1,9 +1,9 @@
 <script setup>
 import LoginSection from '@/components/login/LoginSection.vue'
 import { useConnect } from 'vagmi'
-import { inject } from 'vue'
+import { inject, onMounted } from 'vue'
 
-import { useActiveNetwork } from '@/composable'
+import { useActiveNetwork, useVagmiEventListeners } from '@/composable'
 
 const { isChainAvailable, availableChainNames } = useActiveNetwork()
 
@@ -30,6 +30,8 @@ const axios = inject('axios')
 // })
 
 const { activeConnector } = useConnect()
+
+onMounted(() => useVagmiEventListeners())
 </script>
 
 <template>
@@ -60,3 +62,9 @@ const { activeConnector } = useConnect()
 		</div>
 	</div>
 </template>
+
+<style lang="scss">
+body {
+	@apply font-mono;
+}
+</style>
