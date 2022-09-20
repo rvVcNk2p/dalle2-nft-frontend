@@ -30,7 +30,6 @@ export const useVagmiMint = () => {
 				value: ethers.utils.parseEther('0.1'),
 			})
 			await tx.wait()
-			// TODO: Balance and owned NFT refresh refresh
 		} catch (error) {
 			console.error('Something went wrong...', error)
 		}
