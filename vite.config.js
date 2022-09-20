@@ -13,6 +13,11 @@ export default defineConfig({
 			process: 'process/browser',
 		},
 	},
+	build: {
+		rollupOptions: {
+			external: ['Buffer', 'buffer'],
+		},
+	},
 	optimizeDeps: {
 		esbuildOptions: {
 			// Node.js global to browser globalThis
