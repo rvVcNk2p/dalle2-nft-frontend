@@ -53,6 +53,9 @@ export const useSetNftImage = () => {
 
 			await fetchGasPrice()
 
+			console.log('maxFeePerGas: ', maxFeePerGas.value)
+			console.log('maxPriorityFeePerGas: ', maxPriorityFeePerGas.value)
+
 			await axios.post(baseUrl + '/set-nft', {
 				tokenId,
 				imgId: id,
