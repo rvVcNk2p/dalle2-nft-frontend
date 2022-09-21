@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { computed } from 'vue'
+
 type ownedNftType = {
 	ownedNft: {
 		image: string
@@ -10,9 +12,14 @@ type ownedNftType = {
 const props = defineProps<ownedNftType>()
 
 const { name, image, description, tokenId } = props.ownedNft
+
+const redirectUrl = computed(() => {
+	if (tokenId) return `/nft/${tokenId}`
+	else return ''
+})
 </script>
 <template>
-	<router-link :to="`/nft/${tokenId}`">
+	<router-link :to="redirectUrl">
 		<div class="nft-card">
 			<img :src="image" :alt="name" class="nft-card__img" />
 			<p class="nft-card__name">{{ name }}</p>
