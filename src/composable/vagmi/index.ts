@@ -1,2 +1,5 @@
+export { useVagmiGeNftStatus } from './useVagmiGeNftStatus'
+export { useVagmiGeNftOwnership } from './useVagmiGeNftOwnership'
 export { useVagmiMint } from './useVagmiMint'
+export { useVagmiGetNft } from './useVagmiGetNft'
 export { useVagmiEventListeners } from './useVagmiEventListeners'

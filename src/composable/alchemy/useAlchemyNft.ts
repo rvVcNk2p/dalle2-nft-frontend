@@ -1,11 +1,10 @@
-import { ref, watch, toRaw } from 'vue'
+import { ref, watch } from 'vue'
 import type { Ref } from 'vue'
 import { Network, Alchemy } from 'alchemy-sdk'
 import type { OwnedNftsResponse, OwnedNft } from 'alchemy-sdk'
-import { useAccount, useSigner } from 'vagmi'
+import { useAccount } from 'vagmi'
 import { CURRATED_LABS_CONTRACT_ADDRESS } from '@/shared/data/contracts'
-import { getSmartContract } from '@/shared/handlers/contractHandlers'
-import { CurratedLabsOriginalsABI } from '@/abi/CurratedLabsOriginals'
+import { useVagmiGetNft } from '@/composable'
 
 const { VITE_POLYGON_ALCHEMY_API, VITE_MUMBAI_ALCHEMY_API, VITE_ENVIRONMENT } =
 	import.meta.env
@@ -27,14 +26,9 @@ const settings = {
 
 const alchemy = new Alchemy(settings)
 
-export const getParsedBase64 = (base64Str: string) => {
-	const strInput = base64Str.split('data:application/json;base64,')[1]
-	return JSON.parse(Buffer.from(strInput, 'base64').toString('utf8'))
-}
-
 export const useAlchemyNft = () => {
 	const { address } = useAccount()
-	const { data: signer } = useSigner()
+	const { fetchTokenURIByTokenIdWithResponse } = useVagmiGetNft()
 
 	const ownedNfts: Ref<Array<OwnedNft>> = ref([])
 	const isLoading = ref(false)
@@ -67,39 +61,13 @@ export const useAlchemyNft = () => {
 			const populatedNfts = await Promise.all(
 				ownedTokenIds.map(async (tokenId) => {
 					return {
-						...(await fetchTokenURIByTokenId(tokenId)),
+						...(await fetchTokenURIByTokenIdWithResponse(tokenId)),
 						tokenId,
 					}
 				}),
 			)
+
 			ownedNfts.value = populatedNfts
-		} catch (error) {
-			console.error('Something went wrong...', error)
-			fetchError.value = error
-		}
-
-		isLoading.value = false
-	}
-
-	const fetchTokenURIByTokenId = async (tokenId: string) => {
-		isLoading.value = true
-		fetchError.value = null
-
-		try {
-			if (!signer.value) {
-				console.log('No signer available.')
-			}
-
-			const signerProvider = toRaw(signer.value!)
-
-			const NftContract = getSmartContract(
-				CURRATED_LABS_CONTRACT_ADDRESS,
-				CurratedLabsOriginalsABI,
-				signerProvider,
-			)
-
-			const tokenURI = await NftContract.tokenURI(tokenId)
-			return getParsedBase64(tokenURI)
 		} catch (error) {
 			console.error('Something went wrong...', error)
 			fetchError.value = error
@@ -111,6 +79,7 @@ export const useAlchemyNft = () => {
 	return {
 		ownedNfts,
 		isLoading,
+		fetchError,
 
 		fetchOwnedNfts,
 	}

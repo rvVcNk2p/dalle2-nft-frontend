@@ -12,10 +12,12 @@ const props = defineProps<ownedNftType>()
 const { name, image, description, tokenId } = props.ownedNft
 </script>
 <template>
-	<div class="nft-card">
-		<img :src="image" :alt="name" class="nft-card__img" />
-		<p class="nft-card__name">{{ name }}</p>
-	</div>
+	<router-link :to="`/nft/${tokenId}`">
+		<div class="nft-card">
+			<img :src="image" :alt="name" class="nft-card__img" />
+			<p class="nft-card__name">{{ name }}</p>
+		</div>
+	</router-link>
 </template>
 
 <style lang="scss">

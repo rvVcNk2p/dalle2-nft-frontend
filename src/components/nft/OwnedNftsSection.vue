@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { onMounted } from 'vue'
-import { useNftStore } from '@store'
+import { useOwnedNftsStore } from '@store'
 import { v4 as uuidv4 } from 'uuid'
 
 import NftCard from '@/components/nft/NftCard.vue'
 import { storeToRefs } from 'pinia'
 
-const nftStore = useNftStore()
+const nftStore = useOwnedNftsStore()
 const { ownedNfts, isLoading } = storeToRefs(nftStore)
 const { fetchOwnedNfts } = nftStore
 

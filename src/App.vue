@@ -28,7 +28,7 @@ const axios = inject('axios')
 // 	}, 1000 * 60 * 15 - 1) // Trigger a status call to prevent the server to sleep
 // })
 
-const { activeConnector } = useConnect()
+const { activeConnector, isConnecting } = useConnect()
 
 onMounted(() => useVagmiEventListeners())
 </script>
@@ -40,7 +40,9 @@ onMounted(() => useVagmiEventListeners())
 				class="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 sm:px-6 lg:px-8"
 			>
 				<h1 class="text-3xl font-bold leading-tight text-gray-900">
-					Currated Labs - Originals
+					<router-link to="/">
+						Currated Labs - Originals
+					</router-link>
 				</h1>
 				<LoginSection />
 			</div>

@@ -6,12 +6,13 @@ import { getSmartContract } from '@/shared/handlers/contractHandlers'
 import { CurratedLabsOriginalsABI } from '@/abi/CurratedLabsOriginals'
 import { Signer } from 'ethers'
 import { useToast } from '@/composable'
-import { useNftStore } from '@store'
+import { useOwnedNftsStore, useNftStore } from '@store'
 
 const { createToast, SUCCESS, INFO } = useToast()
 
 export const useVagmiEventListeners = (_signer?: Ref<Signer>) => {
-	const { fetchOwnedNfts } = useNftStore()
+	const { fetchOwnedNfts } = useOwnedNftsStore()
+	const { refresh } = useNftStore()
 	const { data } = useSigner()
 	const { address } = useAccount()
 	const signer = ref(_signer ?? data)
@@ -56,6 +57,7 @@ export const useVagmiEventListeners = (_signer?: Ref<Signer>) => {
 		NftContract.on('SetMindedNft', (from, tokenId, cid) => {
 			if (address.value === from) {
 				fetchOwnedNfts()
+				refresh(tokenId)
 
 				createToast(
 					SUCCESS,
@@ -66,6 +68,7 @@ export const useVagmiEventListeners = (_signer?: Ref<Signer>) => {
 						createToast(
 							INFO,
 							`From now, you own a true masterpiece!`,
+							3500,
 						),
 					3500,
 				)
