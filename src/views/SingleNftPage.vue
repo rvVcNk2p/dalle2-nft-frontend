@@ -1,11 +1,13 @@
 <script lang="ts" setup>
-import { watch, computed } from 'vue'
+import { watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useNftStore } from '@store'
 import { useSigner } from 'vagmi'
 import { v4 as uuidv4 } from 'uuid'
 
 import NftCard from '@/components/nft/NftCard.vue'
+import SetNftSection from '@/components/SetNftSection.vue'
+
 import { storeToRefs } from 'pinia'
 
 const { tokenId } = useRoute().params
@@ -74,6 +76,11 @@ watch(
 						:ownedNft="singleNft"
 					/>
 				</div>
+
+				<SetNftSection
+					v-if="isOwnership && !isNftSetted"
+					:tokenId="tokenId"
+				/>
 			</div>
 			<div v-else>Loading in progress..</div>
 		</div>
