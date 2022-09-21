@@ -5,8 +5,8 @@ const { VITE_ENVIRONMENT } = import.meta.env
 
 const url =
 	VITE_ENVIRONMENT === 'DEVELOPMENT'
-		? 'https://gasstation-mainnet.matic.network/v2'
-		: 'https://gasstation-mumbai.matic.today/v2'
+		? 'https://gasstation-mumbai.matic.today/v2'
+		: 'https://gasstation-mainnet.matic.network/v2'
 
 export const useGasPrice = () => {
 	const axios = inject('axios')
