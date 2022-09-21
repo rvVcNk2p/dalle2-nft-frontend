@@ -1,8 +1,7 @@
 import { inject, ref } from 'vue'
 import { useAccount } from 'vagmi'
-import { useToast } from '@/composable'
+import { useGasPrice } from '@/composable'
 
-const { createToast, SUCCESS } = useToast()
 import { useNftStore } from '@store'
 
 const {
@@ -32,6 +31,7 @@ export type SelectedImageType = {
 export const useSetNftImage = () => {
 	const axios = inject('axios')
 	const { refresh } = useNftStore()
+	const { maxFeePerGas, maxPriorityFeePerGas, fetchGasPrice } = useGasPrice()
 
 	const { address } = useAccount()
 	const isLoading = ref(false)
@@ -51,23 +51,21 @@ export const useSetNftImage = () => {
 				task_id,
 			} = selectedImage
 
-			const res = await axios.post(baseUrl + '/set-nft', {
+			await fetchGasPrice()
+
+			await axios.post(baseUrl + '/set-nft', {
 				tokenId,
 				imgId: id,
 				imagePath: image_path,
 				taskId: task_id,
 				address: address.value,
+				maxFeePerGas: maxFeePerGas.value,
+				maxPriorityFeePerGas: maxPriorityFeePerGas.value,
 			})
 
 			await refresh(tokenId)
 
 			isLoading.value = false
-
-			// createToast(
-			// 	SUCCESS,
-			// 	'The requested image, now belongs to you! Please wait a few second until finalization...',
-			// 	7500,
-			// )
 		} catch (error) {
 			console.log('== Error: ', error)
 			isLoading.value = false
