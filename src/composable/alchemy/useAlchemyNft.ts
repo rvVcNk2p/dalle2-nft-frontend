@@ -67,7 +67,7 @@ export const useAlchemyNft = () => {
 				}),
 			)
 
-			ownedNfts.value = populatedNfts
+			ownedNfts.value = populatedNfts.reverse()
 		} catch (error) {
 			console.error('Something went wrong...', error)
 			fetchError.value = error
