@@ -1,8 +1,8 @@
 import { inject, ref } from 'vue'
 import { useAccount } from 'vagmi'
-import { useGasPrice } from '@/composable'
-
 import { useNftStore } from '@store'
+import { useToast } from '@/composable'
+import { STATUS_CODE } from '@/shared/data/contracts'
 
 const {
 	VITE_BACK_END_URL_PRODUDTION,
@@ -30,8 +30,7 @@ export type SelectedImageType = {
 
 export const useSetNftImage = () => {
 	const axios = inject('axios')
-	const { refresh } = useNftStore()
-	const { maxFeePerGas, maxPriorityFeePerGas, fetchGasPrice } = useGasPrice()
+	const { createToast, SUCCESS, ERROR } = useToast()
 
 	const { address } = useAccount()
 	const isLoading = ref(false)
@@ -44,6 +43,7 @@ export const useSetNftImage = () => {
 		try {
 			isLoading.value = true
 			fetchError.value = false
+			const { setIsSucessfullSet } = useNftStore()
 
 			const {
 				id,
@@ -51,25 +51,44 @@ export const useSetNftImage = () => {
 				task_id,
 			} = selectedImage
 
-			await fetchGasPrice()
-
-			await axios.post(baseUrl + '/set-nft', {
+			const result = await axios.post(baseUrl + '/set-nft', {
 				tokenId,
 				imgId: id,
 				imagePath: image_path,
 				taskId: task_id,
 				address: address.value,
-				maxFeePerGas: maxFeePerGas.value,
-				maxPriorityFeePerGas: maxPriorityFeePerGas.value,
 			})
 
-			await refresh(tokenId)
+			const { error, field, value } = result.data
 
-			isLoading.value = false
+			if (value === STATUS_CODE.ERROR) {
+				createToast(
+					ERROR,
+					`If the error persists, send us an e-mail to: currated-labs@skiff.com. 
+Error source: ${field}
+Error reason: ${error.reason}.`,
+					30000,
+				)
+				createToast(
+					ERROR,
+					'Something went wrong! Please, try again within a few seconds.',
+				)
+			} else {
+				createToast(
+					SUCCESS,
+					'Everything is fine! Stay calm, after a few seconds we will refresh this page..',
+				)
+				setIsSucessfullSet(true)
+			}
 		} catch (error) {
+			createToast(
+				ERROR,
+				'Something went wring during the server connection..',
+			)
 			console.log('== Error: ', error)
-			isLoading.value = false
 			fetchError.value = error
+		} finally {
+			isLoading.value = false
 		}
 	}
 

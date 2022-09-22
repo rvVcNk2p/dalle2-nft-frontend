@@ -4,7 +4,7 @@ import {
 	useVagmiGetNft,
 } from '@/composable'
 import { defineStore } from 'pinia'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 export const useNftStore = defineStore('nft', () => {
 	const {
@@ -36,6 +36,11 @@ export const useNftStore = defineStore('nft', () => {
 		await fetchTokenURIByTokenId(tokenId)
 	}
 
+	const isSucessfullSet = ref(false)
+
+	const setIsSucessfullSet = (newVal: boolean) =>
+		(isSucessfullSet.value = newVal)
+
 	return {
 		singleNft,
 		isOwnership,
@@ -46,5 +51,8 @@ export const useNftStore = defineStore('nft', () => {
 		fetchTokenURIByTokenId,
 		fetchOwnershipByTokeId,
 		fetchStatusByTokeId,
+
+		isSucessfullSet,
+		setIsSucessfullSet,
 	}
 })

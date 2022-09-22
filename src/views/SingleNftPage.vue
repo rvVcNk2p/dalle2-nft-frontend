@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { watch } from 'vue'
+import { onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useNftStore } from '@store'
 import { useSigner } from 'vagmi'
@@ -16,8 +16,9 @@ const { data: signer } = useSigner()
 
 const nftStore = useNftStore()
 
-const { singleNft, isOwnership, isNftSetted, isLoading } = storeToRefs(nftStore)
-const { refresh } = nftStore
+const { singleNft, isOwnership, isNftSetted, isLoading, isSucessfullSet } =
+	storeToRefs(nftStore)
+const { refresh, setIsSucessfullSet } = nftStore
 
 watch(
 	() => [tokenId, signer.value],
@@ -30,6 +31,8 @@ watch(
 		}
 	},
 )
+
+onMounted(() => setIsSucessfullSet(false))
 </script>
 
 <template>
@@ -78,7 +81,7 @@ watch(
 				</div>
 
 				<SetNftSection
-					v-if="isOwnership && !isNftSetted"
+					v-if="isOwnership && !isNftSetted && !isSucessfullSet"
 					:tokenId="tokenId"
 				/>
 			</div>
