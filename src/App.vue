@@ -40,9 +40,7 @@ onMounted(() => useVagmiEventListeners())
 				class="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 sm:px-6 lg:px-8"
 			>
 				<h1 class="text-3xl font-bold leading-tight text-gray-900">
-					<router-link to="/">
-						Currated Labs - Originals
-					</router-link>
+					<router-link to="/"> Vortex </router-link>
 				</h1>
 				<LoginSection />
 			</div>

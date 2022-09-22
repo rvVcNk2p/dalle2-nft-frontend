@@ -12,17 +12,20 @@ const {
 	fetchError,
 	fetchImages,
 } = useGetImages()
+
 const { setNftImage, isLoading: isLoadingSet } = useSetNftImage()
 
-const fireSetNftImage = async (image) => {
-	await setNftImage(props.tokenId, image)
+const fireSetNftImage = async (cid) => {
+	await setNftImage(props.tokenId, cid)
 }
+
+const { VITE_INFURA_IPFS_URL } = import.meta.env
 </script>
 
 <template>
 	<div class="mt-8 flex flex-col" v-if="!isLoadingSet">
 		<PrimaryButton
-			@click="fetchImages"
+			@click="fetchImages(tokenId)"
 			:disabled="isLoadingGet"
 			:label="isLoadingGet ? 'Loading...' : 'Fetch Images'"
 		/>
@@ -32,12 +35,14 @@ const fireSetNftImage = async (image) => {
 			class="flex items-center justify-between gap-x-4"
 		>
 			<div
-				v-for="image in posibleImages.generations"
-				@click="fireSetNftImage(image)"
+				v-for="image in posibleImages"
+				@click="fireSetNftImage(image.cid)"
 				class="cursor-pointer"
 			>
-				<p class="text-center">{{ image.created }}</p>
-				<img :src="image.generation.image_path" class="h-40 w-40" />
+				<img
+					:src="VITE_INFURA_IPFS_URL + image.cid"
+					class="h-40 w-40"
+				/>
 			</div>
 		</div>
 		<div v-else class="mt-10 w-full pb-10 text-center">NO IMAGES</div>

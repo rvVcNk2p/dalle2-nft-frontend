@@ -36,26 +36,15 @@ export const useSetNftImage = () => {
 	const isLoading = ref(false)
 	const fetchError = ref(false)
 
-	const setNftImage = async (
-		tokenId: string,
-		selectedImage: SelectedImageType,
-	) => {
+	const setNftImage = async (tokenId: string, cid: string) => {
 		try {
 			isLoading.value = true
 			fetchError.value = false
 			const { setIsSucessfullSet } = useNftStore()
 
-			const {
-				id,
-				generation: { image_path },
-				task_id,
-			} = selectedImage
-
 			const result = await axios.post(baseUrl + '/set-nft', {
 				tokenId,
-				imgId: id,
-				imagePath: image_path,
-				taskId: task_id,
+				cid,
 				address: address.value,
 			})
 
