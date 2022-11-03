@@ -6,17 +6,16 @@ const { isLoading, mintNft } = useVagmiMint()
 
 <template>
 	<div class="flex min-h-[70vh] flex-col items-center justify-center">
-		<p class="mb-10 text-3xl text-white">Treat yourself!</p>
+		<p class="mb-10 text-2xl text-white">Treat yourself!</p>
 		<button class="glow-on-hover" @click="mintNft" :disabled="isLoading">
-			Mint
+			{{ isLoading ? 'Minting in progress...' : 'Mint' }}
 		</button>
-		<div v-if="isLoading">Nft minting is in progress...</div>
 	</div>
 </template>
 
 <style lang="scss">
 .glow-on-hover {
-	width: 220px;
+	width: 275px;
 	height: 50px;
 	border: none;
 	outline: none;

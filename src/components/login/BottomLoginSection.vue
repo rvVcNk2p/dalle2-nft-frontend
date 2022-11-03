@@ -31,14 +31,15 @@ function capitalizeFirstLetter(string) {
 	>
 		<div
 			v-if="activeConnector"
-			class="cursor-pointer text-black"
+			class="cursor-pointer text-center text-black"
 			@click="disconnect"
 		>
 			<p v-if="!isDisconnected && isChainAvailable">
-				Balance: {{ formattedBalance }} {{ data?.symbol }}
+				Balance: <span class="font-black">{{ formattedBalance }}</span>
+				{{ data?.symbol }}
 			</p>
 			<!-- <div>Active chain: {{ activeChain?.name }}</div> -->
-			Connected to {{ activeConnector.name }}
+			[Connected to {{ activeConnector.name }}]
 		</div>
 		<div class="text-black" v-else-if="isConnecting || pendingConnector">
 			Connecting...

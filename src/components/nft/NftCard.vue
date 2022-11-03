@@ -29,7 +29,8 @@ const redirectUrl = computed(() => {
 
 <style lang="scss">
 .nft-card {
-	@apply flex flex-col justify-center drop-shadow-2xl transition duration-500 ease-in-out;
+	@apply flex flex-col justify-center transition duration-500 ease-in-out;
+	@apply drop-shadow-[0_5px_35px_rgba(200,200,200,0.5)];
 
 	&:hover {
 		@apply scale-[1.05] cursor-pointer;
