@@ -14,11 +14,11 @@ onMounted(async () => await fetchOwnedNfts())
 </script>
 
 <template>
-	<div class="flex w-full flex-col">
+	<div class="mb-10 flex w-full flex-col">
 		<h2
-			class="mb-10 text-center font-mono text-3xl font-semibold text-indigo-600 underline underline-offset-4"
+			class="mb-10 text-center font-mono text-3xl font-semibold text-white underline underline-offset-4"
 		>
-			Your epic NFTs
+			Your NFTs
 		</h2>
 		<div class="owned-nfts-section">
 			<NftCard

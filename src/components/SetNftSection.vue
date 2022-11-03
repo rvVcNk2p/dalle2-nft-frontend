@@ -23,7 +23,10 @@ const { VITE_INFURA_IPFS_URL } = import.meta.env
 </script>
 
 <template>
-	<div class="mt-8 flex flex-col" v-if="!isLoadingSet">
+	<div
+		class="mt-8 flex flex-col items-center justify-center"
+		v-if="!isLoadingSet"
+	>
 		<PrimaryButton
 			@click="fetchImages(tokenId)"
 			:disabled="isLoadingGet"
@@ -32,16 +35,16 @@ const { VITE_INFURA_IPFS_URL } = import.meta.env
 
 		<div
 			v-if="posibleImages"
-			class="flex items-center justify-between gap-x-4"
+			class="mt-10 mb-20 grid grid-cols-1 gap-1 rounded-lg border-2 bg-white sm:grid-cols-2"
 		>
 			<div
 				v-for="image in posibleImages"
 				@click="fireSetNftImage(image.cid)"
-				class="cursor-pointer"
+				class="cursor-pointer rounded-lg border-0"
 			>
 				<img
 					:src="VITE_INFURA_IPFS_URL + image.cid"
-					class="h-40 w-40"
+					class="h-48 w-48"
 				/>
 			</div>
 		</div>

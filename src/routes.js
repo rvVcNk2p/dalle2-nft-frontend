@@ -5,6 +5,11 @@ import NotFound from './views/NotFound.vue'
 export const routes = [
 	{ path: '/', component: Home, meta: { title: 'Home' } },
 	{
+		path: '/my-nfts',
+		meta: { title: 'My NFTs' },
+		component: () => import('./views/MyNftsPage.vue'),
+	},
+	{
 		path: '/nft/:tokenId',
 		// meta: { title: 'About' },
 		component: () => import('./views/SingleNftPage.vue'),

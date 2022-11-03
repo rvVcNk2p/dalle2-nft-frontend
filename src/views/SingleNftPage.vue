@@ -36,57 +36,51 @@ onMounted(() => setIsSucessfullSet(false))
 </script>
 
 <template>
-	<div class="bg-white">
+	<div>
 		<div
-			class="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 lg:flex lg:items-center lg:justify-between lg:py-16 lg:px-8"
+			v-if="!isLoading && singleNft"
+			class="felx w-full flex-col items-center justify-center text-center"
 		>
-			<div
-				v-if="!isLoading && singleNft"
-				class="felx w-full flex-col items-center justify-center text-center"
-			>
-				<div class="felx mb-10 flex-col items-start justify-center">
-					<div
-						class="flex flex-col items-center justify-center gap-2"
+			<div class="felx mb-10 flex-col items-start justify-center">
+				<div class="flex flex-col items-center justify-center gap-2">
+					<span
+						:class="[
+							'badge w-fit',
+							isOwnership ? 'badge--green' : 'badge--red',
+						]"
+						>{{
+							isOwnership
+								? 'belongs to you'
+								: 'belongs to someone else'
+						}}</span
 					>
-						<span
-							:class="[
-								'badge w-fit',
-								isOwnership ? 'badge--green' : 'badge--red',
-							]"
-							>{{
-								isOwnership
-									? 'belongs to you'
-									: 'belongs to someone else'
-							}}</span
-						>
-						<span
-							:class="[
-								'badge w-fit',
-								isNftSetted ? 'badge--green' : 'badge--yellow',
-							]"
-							>{{
-								isNftSetted
-									? 'reached its final form'
-									: 'not yet reached its final form'
-							}}</span
-						>
-					</div>
+					<span
+						:class="[
+							'badge w-fit',
+							isNftSetted ? 'badge--green' : 'badge--yellow',
+						]"
+						>{{
+							isNftSetted
+								? 'reached its final form'
+								: 'not yet reached its final form'
+						}}</span
+					>
 				</div>
-				<div class="single-nft__container">
-					<NftCard
-						v-if="singleNft"
-						:key="uuidv4()"
-						:ownedNft="singleNft"
-					/>
-				</div>
-
-				<SetNftSection
-					v-if="isOwnership && !isNftSetted && !isSucessfullSet"
-					:tokenId="tokenId"
+			</div>
+			<div class="single-nft__container">
+				<NftCard
+					v-if="singleNft"
+					:key="uuidv4()"
+					:ownedNft="singleNft"
 				/>
 			</div>
-			<div v-else>Loading in progress..</div>
+
+			<SetNftSection
+				v-if="isOwnership && !isNftSetted && !isSucessfullSet"
+				:tokenId="tokenId"
+			/>
 		</div>
+		<div v-else>Loading in progress..</div>
 	</div>
 </template>
 

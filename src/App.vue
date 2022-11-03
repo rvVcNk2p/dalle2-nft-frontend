@@ -1,5 +1,7 @@
 <script setup>
-import LoginSection from '@/components/login/LoginSection.vue'
+import TheHeader from '@/components/navigation/TheHeader.vue'
+import BottomLoginSection from '@/components/login/BottomLoginSection.vue'
+
 import { useConnect } from 'vagmi'
 import { inject, onMounted } from 'vue'
 import { useActiveNetwork, useVagmiEventListeners } from '@/composable'
@@ -34,22 +36,22 @@ onMounted(() => useVagmiEventListeners())
 </script>
 
 <template>
-	<div>
-		<header class="bg-white shadow">
-			<div
-				class="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 sm:px-6 lg:px-8"
-			>
-				<h1 class="text-3xl font-bold leading-tight text-gray-900">
-					<router-link to="/"> Vortex </router-link>
-				</h1>
-				<LoginSection />
-			</div>
-		</header>
-		<main v-if="activeConnector && isChainAvailable">
+	<div id="app" class="relative bg-black">
+		<TheHeader />
+		<BottomLoginSection />
+
+		<main
+			v-if="activeConnector && isChainAvailable"
+			class="mx-auto flex max-w-screen-xl flex-col items-center justify-between px-4 pb-10 pt-12 sm:px-6 lg:py-16 lg:px-8"
+		>
 			<router-view />
 		</main>
-		<div v-else class="flex h-[80vh] w-full items-center justify-center">
-			<p class="text-center text-5xl font-normal text-indigo-600">
+
+		<div
+			v-else
+			class="flex h-[80vh] w-full items-center justify-center px-10"
+		>
+			<p class="text-center text-5xl font-normal text-white">
 				{{
 					!activeConnector
 						? 'Please connect your account first!'
@@ -65,5 +67,8 @@ onMounted(() => useVagmiEventListeners())
 <style lang="scss">
 body {
 	@apply font-mono;
+}
+#app {
+	@apply min-h-screen;
 }
 </style>
