@@ -1,6 +1,6 @@
 import type { ethers } from 'ethers'
 import { useConnect, useNetwork, useSigner } from 'vagmi'
-import { computed, toRaw, watch } from 'vue'
+import { computed, toRaw } from 'vue'
 
 import { supportedChains } from '@/shared/data/supportedChains'
 import type { WalletType } from '@/shared/types/chains.types'

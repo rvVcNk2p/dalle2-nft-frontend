@@ -50,17 +50,20 @@
 
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
-import { onMounted } from 'vue'
+
+import { onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useNftStore } from '@store'
 import { useAuthStore } from '@store'
 import { v4 as uuidv4 } from 'uuid'
+import { useSigner } from 'vagmi'
 
 import NftCard from '@/components/nft/NftCard.vue'
 import SetNftSection from '@/components/SetNftSection.vue'
 import TheGuard from '@/components/navigation/TheGuard.vue'
 
 const { isAuthEnabled } = storeToRefs(useAuthStore())
+const { data: signer } = useSigner()
 
 const route = useRoute()
 const { needAuth } = route.meta
@@ -69,12 +72,20 @@ const tokenId = route.params.tokenId + ''
 const nftStore = useNftStore()
 const { singleNft, isOwnership, isNftSetted, isLoading, isSucessfullSet } =
 	storeToRefs(nftStore)
-const { refresh, setIsSucessfullSet } = nftStore
+const { refresh, setIsSucessfullSet, resetSingleNft } = nftStore
 
-onMounted(() => {
-	setIsSucessfullSet(false)
-	refresh(tokenId)
-})
+const isInitialized = ref(false)
+watch(
+	() => signer.value,
+	() => {
+		if (!isInitialized.value && signer.value) {
+			refresh(tokenId)
+			isInitialized.value = true
+		}
+	},
+)
+
+onUnmounted(() => resetSingleNft())
 </script>
 
 <style lang="scss">
