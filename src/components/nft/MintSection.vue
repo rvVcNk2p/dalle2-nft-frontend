@@ -8,7 +8,8 @@ const { isLoading, mintNft } = useVagmiMint()
 	<div class="flex min-h-[70vh] flex-col items-center justify-center">
 		<p class="mb-10 text-2xl text-white">Treat yourself!</p>
 		<button class="glow-on-hover" @click="mintNft" :disabled="isLoading">
-			{{ isLoading ? 'Minting in progress...' : 'Mint' }}
+			{{ !isLoading ? 'Mint' : '' }}
+			<span v-if="isLoading" class="loader" />
 		</button>
 	</div>
 </template>
@@ -78,5 +79,34 @@ const { isLoading, mintNft } = useVagmiMint()
 	left: 0;
 	top: 0;
 	border-radius: 10px;
+}
+
+// LOADER
+.loader {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	display: block;
+	margin: 15px auto;
+	position: relative;
+	background: #fff;
+	box-shadow: -24px 0 #fff, 24px 0 #fff;
+	box-sizing: border-box;
+	animation: shadowPulse 2s linear infinite;
+}
+
+@keyframes shadowPulse {
+	33% {
+		background: #fff;
+		box-shadow: -24px 0 #ff3d00, 24px 0 #fff;
+	}
+	66% {
+		background: #ff3d00;
+		box-shadow: -24px 0 #fff, 24px 0 #fff;
+	}
+	100% {
+		background: #fff;
+		box-shadow: -24px 0 #fff, 24px 0 #ff3d00;
+	}
 }
 </style>

@@ -8,6 +8,7 @@
 			</h1>
 			<div class="flex gap-x-10 text-white">
 				<router-link to="/"> Home </router-link>
+				<router-link to="/mint"> Mint </router-link>
 				<router-link to="/my-nfts"> My NFTs </router-link>
 			</div>
 			<div class="w-20"></div>

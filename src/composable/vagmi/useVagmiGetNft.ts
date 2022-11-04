@@ -72,6 +72,10 @@ export const useVagmiGetNft = () => {
 		isLoading.value = false
 	}
 
+	const resetSingleNft = () => {
+		singleNft.value = null
+	}
+
 	return {
 		singleNft,
 		isLoading,
@@ -79,5 +83,6 @@ export const useVagmiGetNft = () => {
 
 		fetchTokenURIByTokenId,
 		fetchTokenURIByTokenIdWithResponse,
+		resetSingleNft,
 	}
 }

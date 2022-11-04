@@ -1,7 +1,5 @@
-<script lang="ts" setup>
-import MintSection from '@/components/nft/MintSection.vue'
-</script>
+<script lang="ts" setup></script>
 
 <template>
-	<MintSection />
+	<h1 class="text-white">Welcome here!</h1>
 </template>

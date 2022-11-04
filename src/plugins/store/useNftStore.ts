@@ -10,6 +10,7 @@ export const useNftStore = defineStore('nft', () => {
 	const {
 		singleNft,
 		isLoading: isLoadingNft,
+		resetSingleNft,
 		fetchTokenURIByTokenId,
 	} = useVagmiGetNft()
 	const {
@@ -48,6 +49,7 @@ export const useNftStore = defineStore('nft', () => {
 		isLoading,
 
 		refresh,
+		resetSingleNft,
 		fetchTokenURIByTokenId,
 		fetchOwnershipByTokeId,
 		fetchStatusByTokeId,

@@ -6,7 +6,6 @@ type ownedNftType = {
 		image: string
 		description: string
 		name: string
-		tokenId: string
 	}
 }
 const props = defineProps<ownedNftType>()

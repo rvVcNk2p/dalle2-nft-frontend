@@ -7,6 +7,7 @@ import { CurratedLabsOriginalsABI } from '@/abi/CurratedLabsOriginals'
 import { Signer } from 'ethers'
 import { useToast } from '@/composable'
 import { useOwnedNftsStore, useNftStore } from '@store'
+import { useRouter } from 'vue-router'
 
 const { createToast, SUCCESS, INFO } = useToast()
 
@@ -16,6 +17,7 @@ export const useVagmiEventListeners = (_signer?: Ref<Signer>) => {
 	const { data } = useSigner()
 	const { address } = useAccount()
 	const signer = ref(_signer ?? data)
+	const router = useRouter()
 
 	watch(
 		() => signer.value,
@@ -47,8 +49,10 @@ export const useVagmiEventListeners = (_signer?: Ref<Signer>) => {
 
 				createToast(
 					SUCCESS,
-					`Congratulation! You have been minted a new NFT with tokenId: ${tokenId.toString()}`,
+					`You have been minted a new NFT with tokenId: ${tokenId.toString()}`,
 				)
+
+				router.push('/my-nfts')
 			}
 		})
 	}

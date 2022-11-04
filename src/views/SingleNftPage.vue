@@ -1,42 +1,5 @@
-<script lang="ts" setup>
-import { onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import { useNftStore } from '@store'
-import { useSigner } from 'vagmi'
-import { v4 as uuidv4 } from 'uuid'
-
-import NftCard from '@/components/nft/NftCard.vue'
-import SetNftSection from '@/components/SetNftSection.vue'
-
-import { storeToRefs } from 'pinia'
-
-const { tokenId } = useRoute().params
-
-const { data: signer } = useSigner()
-
-const nftStore = useNftStore()
-
-const { singleNft, isOwnership, isNftSetted, isLoading, isSucessfullSet } =
-	storeToRefs(nftStore)
-const { refresh, setIsSucessfullSet } = nftStore
-
-watch(
-	() => [tokenId, signer.value],
-	async (_, oldVal) => {
-		if (signer.value && tokenId && typeof tokenId === 'string') {
-			const oldAddress = oldVal?._address ?? null
-			if (oldAddress === null) {
-				refresh(tokenId)
-			}
-		}
-	},
-)
-
-onMounted(() => setIsSucessfullSet(false))
-</script>
-
 <template>
-	<div>
+	<div v-if="needAuth && isAuthEnabled">
 		<div
 			v-if="!isLoading && singleNft"
 			class="felx w-full flex-col items-center justify-center text-center"
@@ -80,9 +43,39 @@ onMounted(() => setIsSucessfullSet(false))
 				:tokenId="tokenId"
 			/>
 		</div>
-		<div v-else>Loading in progress..</div>
+		<div v-else class="text-xl text-white">Loading in progress..</div>
 	</div>
+	<TheGuard v-else />
 </template>
+
+<script lang="ts" setup>
+import { storeToRefs } from 'pinia'
+import { onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { useNftStore } from '@store'
+import { useAuthStore } from '@store'
+import { v4 as uuidv4 } from 'uuid'
+
+import NftCard from '@/components/nft/NftCard.vue'
+import SetNftSection from '@/components/SetNftSection.vue'
+import TheGuard from '@/components/navigation/TheGuard.vue'
+
+const { isAuthEnabled } = storeToRefs(useAuthStore())
+
+const route = useRoute()
+const { needAuth } = route.meta
+const tokenId = route.params.tokenId + ''
+
+const nftStore = useNftStore()
+const { singleNft, isOwnership, isNftSetted, isLoading, isSucessfullSet } =
+	storeToRefs(nftStore)
+const { refresh, setIsSucessfullSet } = nftStore
+
+onMounted(() => {
+	setIsSucessfullSet(false)
+	refresh(tokenId)
+})
+</script>
 
 <style lang="scss">
 .single-nft__container {
