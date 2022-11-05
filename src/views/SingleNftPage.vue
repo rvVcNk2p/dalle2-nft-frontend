@@ -38,6 +38,13 @@
 				/>
 			</div>
 
+			<div
+				class="mt-10 text-white"
+				v-if="singleNft.description.length > 30"
+			>
+				{{ singleNft.description }}
+			</div>
+
 			<SetNftSection
 				v-if="isOwnership && !isNftSetted && !isSucessfullSet"
 				:tokenId="tokenId"

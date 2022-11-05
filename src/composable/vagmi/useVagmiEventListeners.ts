@@ -8,6 +8,7 @@ import { Signer } from 'ethers'
 import { useToast } from '@/composable'
 import { useOwnedNftsStore, useNftStore } from '@store'
 import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 
 const { createToast, SUCCESS, INFO } = useToast()
 
@@ -24,7 +25,9 @@ export const useVagmiEventListeners = (_signer?: Ref<Signer>) => {
 		(_, oldVal) => {
 			if (signer.value) {
 				const oldAddress = oldVal?._address ?? null
-				if (oldAddress === null) initEventListeners()
+				if (oldAddress === null) {
+					initEventListeners()
+				}
 			}
 		},
 	)
@@ -58,8 +61,16 @@ export const useVagmiEventListeners = (_signer?: Ref<Signer>) => {
 	}
 
 	const initSetMindedNftListener = async (NftContract) => {
-		NftContract.on('SetMindedNft', (from, tokenId, cid) => {
-			if (address.value === from) {
+		NftContract.on('SetMindedNft', (_, tokenId, __) => {
+			const nftStore = useOwnedNftsStore()
+			const { ownedNfts } = storeToRefs(nftStore)
+
+			const ownedTokenIds = ownedNfts.value.map((nft) =>
+				parseInt(nft.tokenId),
+			)
+			const tokenIdNumber = parseInt(tokenId + '')
+
+			if (ownedTokenIds.includes(tokenIdNumber)) {
 				fetchOwnedNfts()
 				refresh(tokenId)
 
