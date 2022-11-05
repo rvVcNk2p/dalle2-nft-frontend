@@ -8,6 +8,7 @@ const props = defineProps({
 
 const {
 	posibleImages,
+	description,
 	isLoading: isLoadingGet,
 	fetchError,
 	fetchImages,
@@ -16,7 +17,13 @@ const {
 const { setNftImage, isLoading: isLoadingSet } = useSetNftImage()
 
 const fireSetNftImage = async (cid) => {
-	await setNftImage(props.tokenId, cid)
+	const areYouSure = confirm(
+		'Are you sure? The other 3 images will be DESTROYED!',
+	)
+
+	if (areYouSure) {
+		await setNftImage(props.tokenId, cid, description.value)
+	}
 }
 
 const { VITE_INFURA_IPFS_URL } = import.meta.env
@@ -48,7 +55,9 @@ const { VITE_INFURA_IPFS_URL } = import.meta.env
 				/>
 			</div>
 		</div>
-		<div v-else class="mt-10 w-full pb-10 text-center">NO IMAGES</div>
+		<div v-else class="mt-10 w-full pb-10 text-center text-white">
+			NO IMAGES
+		</div>
 	</div>
-	<div v-else class="mt-10">Loading in progress..</div>
+	<div v-else class="mt-10 text-white">Loading in progress..</div>
 </template>

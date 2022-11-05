@@ -36,7 +36,11 @@ export const useSetNftImage = () => {
 	const isLoading = ref(false)
 	const fetchError = ref(false)
 
-	const setNftImage = async (tokenId: string, cid: string) => {
+	const setNftImage = async (
+		tokenId: string,
+		cid: string,
+		description: string,
+	) => {
 		try {
 			isLoading.value = true
 			fetchError.value = false
@@ -46,6 +50,7 @@ export const useSetNftImage = () => {
 				tokenId,
 				cid,
 				address: address.value,
+				description,
 			})
 
 			const { error, field, value } = result.data

@@ -18,6 +18,7 @@ export const useGetImages = () => {
 	const { address } = useAccount()
 
 	const posibleImages: Ref = ref([])
+	const description: Ref = ref()
 	const isLoading = ref(false)
 	const fetchError = ref(false)
 
@@ -31,6 +32,7 @@ export const useGetImages = () => {
 					`/fetch-images?tokenId=${tokenId}&address=${address.value}`,
 			)
 			posibleImages.value = res.data?.generationImages
+			description.value = res.data?.description
 			isLoading.value = false
 		} catch (error) {
 			// TODO: Toaster error
@@ -42,6 +44,7 @@ export const useGetImages = () => {
 
 	return {
 		posibleImages,
+		description,
 		isLoading,
 		fetchError,
 

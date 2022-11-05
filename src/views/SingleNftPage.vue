@@ -51,7 +51,7 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
 
-import { onUnmounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useNftStore } from '@store'
 import { useAuthStore } from '@store'
@@ -85,6 +85,7 @@ watch(
 	},
 )
 
+onMounted(() => setIsSucessfullSet(false))
 onUnmounted(() => resetSingleNft())
 </script>
 
