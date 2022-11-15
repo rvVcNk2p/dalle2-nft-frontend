@@ -26,8 +26,16 @@ onMounted(async () => await fetchOwnedNfts())
 				:key="uuidv4()"
 				:ownedNft="nft"
 			/>
-			<div v-if="!ownedNfts.length && !isLoading">
-				No NFts has been minted!
+			<div
+				v-if="!ownedNfts.length && !isLoading"
+				class="text-center text-white"
+			>
+				<p class="mb-6">No NFts has been minted yet!</p>
+				<p>
+					Go to our
+					<a href="/mint" class="text-green-400">Mint</a> page, to
+					start your journey.
+				</p>
 			</div>
 			<div v-else-if="!ownedNfts.length && isLoading">
 				Fething your NFTs...
@@ -38,6 +46,6 @@ onMounted(async () => await fetchOwnedNfts())
 
 <style lang="scss">
 .owned-nfts-section {
-	@apply flex flex-wrap items-center justify-center gap-4;
+	@apply mt-24 flex flex-wrap items-center justify-center gap-4;
 }
 </style>
