@@ -6,6 +6,8 @@ import { getSmartContract } from '@/shared/handlers/contractHandlers'
 import { CurratedLabsOriginalsABI } from '@/abi/CurratedLabsOriginals'
 import { ethers } from 'ethers'
 
+const { VITE_MINT_PRICE } = import.meta.env
+
 export const useVagmiMint = () => {
 	const { data: signer } = useSigner()
 	const isLoading = ref(false)
@@ -27,7 +29,7 @@ export const useVagmiMint = () => {
 			)
 
 			const tx = await NftContract.mint({
-				value: ethers.utils.parseEther('0.1'),
+				value: ethers.utils.parseEther(`${VITE_MINT_PRICE || '0.1'}`),
 			})
 			await tx.wait()
 		} catch (error) {

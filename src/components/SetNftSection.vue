@@ -37,8 +37,12 @@ const { VITE_INFURA_IPFS_URL } = import.meta.env
 		<PrimaryButton
 			@click="fetchImages(tokenId)"
 			:disabled="isLoadingGet"
-			:label="isLoadingGet ? 'Loading...' : 'Fetch Images'"
+			:label="isLoadingGet ? 'Loading...' : 'Generate my paintings'"
 		/>
+
+		<div v-if="description" class="mx-auto mt-20 text-white">
+			{{ description }}
+		</div>
 
 		<div
 			v-if="posibleImages"

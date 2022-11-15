@@ -2,13 +2,17 @@
 import { useVagmiMint } from '@/composable'
 
 const { isLoading, mintNft } = useVagmiMint()
+const { VITE_MINT_PRICE } = import.meta.env
 </script>
 
 <template>
 	<div class="flex min-h-[70vh] flex-col items-center justify-center">
-		<p class="mb-10 text-2xl text-white">Treat yourself!</p>
+		<p class="mb-10 text-2xl text-white">
+			Treat yourself, with an unique
+			<span class="text-green-400">Famous artists' cats</span> NFT!
+		</p>
 		<button class="glow-on-hover" @click="mintNft" :disabled="isLoading">
-			{{ !isLoading ? 'Mint' : '' }}
+			{{ !isLoading ? `Mint for ${VITE_MINT_PRICE} MATIC` : '' }}
 			<span v-if="isLoading" class="loader" />
 		</button>
 	</div>
